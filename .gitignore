@@ -1,0 +1,11 @@
+config/config.php
+cache/*
+logs/*
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+vendor/
+composer.lock

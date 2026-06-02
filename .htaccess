@@ -1,0 +1,26 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Prevent direct access to config and src directories
+    RewriteRule ^(config|src|logs|cache|bootstrap\.php)($|/) - [F,L]
+
+    # Microsoft Autodiscover
+    RewriteRule ^autodiscover/autodiscover\.xml$ public/autodiscover.php [L]
+
+    # Mozilla Autoconfig
+    RewriteRule ^\.well-known/autoconfig/mail/config-v1\.1\.xml$ public/autoconfig.php [L]
+
+    # Redirect domain root to autoconfig for convenience
+    RewriteRule ^autoconfig\.xml$ public/autoconfig.php [L]
+</IfModule>
+
+# Deny access to sensitive files
+<FilesMatch "\.(php|config|example|log)$">
+    Order Deny,Allow
+    Deny from all
+    Allow from all
+</FilesMatch>
+
+# Set correct mime types
+AddType application/xml .xml
+AddEncoding deflate xml
