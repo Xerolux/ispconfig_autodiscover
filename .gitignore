@@ -1,0 +1,10 @@
+website/config.php
+website/cache/
+logs/
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.orig

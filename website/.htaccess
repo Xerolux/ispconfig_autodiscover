@@ -1,0 +1,35 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Microsoft Autodiscover
+    RewriteRule ^autodiscover/autodiscover\.xml$ autodiscover.php [L]
+
+    # Mozilla Autoconfig
+    RewriteRule ^\.well-known/autoconfig/mail/config-v1\.1\.xml$ autoconfig.php [L]
+
+    # Fallback index
+    RewriteRule ^index\.html$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . index.php [L]
+</IfModule>
+
+# Deny direct access to sensitive files
+<FilesMatch "\.(php|conf|example)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Allow PHP execution
+<FilesMatch "\.php$">
+    Order Deny,Allow
+    Allow from all
+</FilesMatch>
+
+# Cache headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+</IfModule>
+
+AddType application/xml .xml
