@@ -1,96 +1,59 @@
-# ispconfig Autodiscover Service
+# ispconfig Autodiscover Module
 
-Ein professioneller Autodiscover-Service für ispconfig mit Unterstützung für Microsoft Autodiscover und Mozilla Autoconfig. Ermöglicht Mail-Clients (Thunderbird, Outlook, K-9 Mail, etc.) automatische Server-Konfiguration.
+Ein modernes ispconfig Module für automatische Mail-Client Konfiguration.
 
 ## Features
 
-- ✅ **Microsoft Autodiscover** (`/autodiscover/autodiscover.xml`)
-- ✅ **Mozilla Autoconfig** (`/.well-known/autoconfig/mail/config-v1.1.xml`)
-- ✅ **ispconfig Integration** über REST API
-- ✅ **Per-Domain Features** - aktivierbar/deaktivierbar
-- ✅ **Postfix + Dovecot** Unterstützung
-- ✅ **Caching** für Performance
-- ✅ **Responsive & Fehlersicher**
+- ✅ **Microsoft Autodiscover** - Outlook, Evolution, etc.
+- ✅ **Mozilla Autoconfig** - Thunderbird, K-9 Mail, etc.
+- ✅ **ispconfig Integration** - Direkt in ispconfig Admin Panel
+- ✅ **Per-Domain Aktivierung** - Checkbox pro Domain
+- ✅ **Postfix + Dovecot** - Mail-Server Support
+- ✅ **Updates-proof** - Separate Installation
 
 ## Installation
 
-### Anforderungen
-
-- PHP 7.4+
-- cURL Extension (für ispconfig API)
-- ispconfig Server
-- Web-Server mit rewrite support
-
-### Setup
-
-1. **Repository klonen:**
 ```bash
-git clone https://github.com/xerolux/ispconfig_autodiscover.git /var/www/autodiscover
-cd /var/www/autodiscover
-```
+# 1. Dateirechte setzen
+chown -R ispconfig:ispconfig interface
+chmod -R 750 interface
 
-2. **Konfiguration erstellen:**
-```bash
-cp config/config.example.php config/config.php
-# config.php anpassen (ispconfig API Credentials, etc.)
-```
+# 2. Kopieren nach ispconfig
+cp -prf interface /usr/local/ispconfig
 
-3. **Webserver konfigurieren:**
+# 3. Website kopieren
+mkdir -p /var/www/autodiscover
+cp -prf website /var/www/autodiscover
 
-**Apache (.htaccess wird bereitgestellt):**
-```bash
-a2enmod rewrite
-```
+# 4. Konfigurieren
+cp /var/www/autodiscover/website/config.example.php /var/www/autodiscover/website/config.php
+nano /var/www/autodiscover/website/config.php
 
-**Nginx:**
-```nginx
-server {
-    listen 80;
-    server_name domain.com;
-    root /var/www/autodiscover;
-    
-    location ~ /\.well-known/autoconfig/ {
-        try_files $uri @autoconfig;
-    }
-    
-    location /autodiscover/ {
-        try_files $uri @autodiscover;
-    }
-    
-    location @autodiscover {
-        rewrite ^/autodiscover/(.*)$ /public/autodiscover.php last;
-    }
-    
-    location @autoconfig {
-        rewrite ^/\.well-known/autoconfig/mail/(.*)$ /public/autoconfig.php last;
-    }
-}
+# 5. Web-Server konfigurieren
+chown -R www-data:www-data /var/www/autodiscover
+chmod 755 /var/www/autodiscover
 ```
 
 ## Verwendung
 
-Autodiscover ist per Default aktiv für alle Domains. Kann pro Domain in ispconfig aktiviert/deaktiviert werden.
+1. ispconfig Admin Panel >> **Tools** >> **Autodiscover**
+2. Pro Domain: Häkchen setzen zum Aktivieren
+3. Mail-Clients erkennen Konfiguration automatisch
 
-## Manuelles Testen
+## Endpoints
 
-```bash
-# Microsoft Autodiscover
-curl -X POST -d '<?xml version="1.0"?><Autodiscover><Request><EMailAddress>user@domain.com</EMailAddress></Request></Autodiscover>' \
-  https://domain.com/autodiscover/autodiscover.xml
-
-# Mozilla Autoconfig  
-curl https://domain.com/.well-known/autoconfig/mail/config-v1.1.xml?emailaddress=user@domain.com
-```
+- `https://domain.com/autodiscover/autodiscover.xml` - Microsoft
+- `https://domain.com/.well-known/autoconfig/mail/config-v1.1.xml` - Mozilla
 
 ## Konfiguration
 
-Siehe `config/config.example.php` für alle Optionen.
+`/var/www/autodiscover/website/config.php`:
+- IMAP Server (Host, Port, SSL/STARTTLS)
+- SMTP Server (Host, Port, SSL/STARTTLS)
+- Authentifizierung
 
-## API-Endpunkte
+## Support
 
-- `/autodiscover/autodiscover.xml` - Microsoft Autodiscover
-- `/.well-known/autoconfig/mail/config-v1.1.xml` - Mozilla Autoconfig
-
-## ispconfig Integration
-
-Der Service queriert die ispconfig REST API für Domain- und Mail-Server-Informationen.
+- Alle ispconfig 3.x Versionen
+- PHP 7.4+
+- Postfix + Dovecot

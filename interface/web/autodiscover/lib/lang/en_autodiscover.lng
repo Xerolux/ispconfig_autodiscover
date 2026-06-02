@@ -1,0 +1,36 @@
+<?php
+// English language file for Autodiscover module
+
+$lng['autodiscover'] = 'Autodiscover';
+$lng['list_head_autodiscover'] = 'Autodiscover';
+$lng['list_head_domain'] = 'Domain';
+$lng['list_head_imap'] = 'IMAP Server';
+$lng['list_head_smtp'] = 'SMTP Server';
+$lng['list_head_enabled'] = 'Enabled';
+$lng['list_head_actions'] = 'Actions';
+
+$lng['form_domain'] = 'Domain';
+$lng['form_enabled'] = 'Enabled';
+$lng['form_imap_host'] = 'IMAP Host';
+$lng['form_imap_port'] = 'IMAP Port';
+$lng['form_imap_security'] = 'IMAP Security';
+$lng['form_smtp_host'] = 'SMTP Host';
+$lng['form_smtp_port'] = 'SMTP Port';
+$lng['form_smtp_security'] = 'SMTP Security';
+$lng['form_smtp_auth_required'] = 'SMTP Authentication Required';
+
+$lng['msg_added_successfully'] = 'Autodiscover configuration added successfully.';
+$lng['msg_updated_successfully'] = 'Autodiscover configuration updated successfully.';
+$lng['msg_deleted_successfully'] = 'Autodiscover configuration deleted successfully.';
+
+$lng['btn_add'] = 'Add';
+$lng['btn_edit'] = 'Edit';
+$lng['btn_delete'] = 'Delete';
+$lng['btn_save'] = 'Save';
+$lng['btn_cancel'] = 'Cancel';
+
+$lng['confirm_delete'] = 'Are you sure you want to delete this entry?';
+$lng['security_ssl'] = 'SSL';
+$lng['security_starttls'] = 'STARTTLS';
+$lng['security_none'] = 'None';
+?>
